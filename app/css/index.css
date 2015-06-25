@@ -1,0 +1,73 @@
+/* タイムラインのスタイル */
+
+.item {
+	overflow: hidden;
+	transition: color .3s;
+	-webkit-animation: openSpace .3s ease forwards, moveIn .8s ease forwards, borderIn .6s .6s forwards;
+	border-bottom: 3px dashed rgba(255, 255, 255, 0);
+}
+.item small {
+	color: #999;
+}
+.item:last-of-type {
+	border-bottom: none;
+}
+.item-body {
+	margin: .6rem 0;
+	padding: .2rem .5rem;
+}
+.item-body.feeditem {
+	cursor: pointer;
+	transition: background-color .3s;
+	/* border-radius: .4rem; */
+}
+.item-body.feeditem:hover {
+	transition: background-color .05s;
+	background-color: rgba(255, 255, 255, .15);
+}
+.item-body.feeditem:active {
+	background-color: rgba(255, 255, 255, .1);
+}
+.item-body.feeditem.visited {
+	transition: opacity .3s;
+	opacity: .6;
+}
+.item-body.message {
+	cursor: default;
+	text-align: center;
+}
+.item-title {
+	overflow: hidden;
+	max-height: 3rem;
+	text-overflow: ellipsis;
+}
+.item-title .favicon {
+	width: 1rem;
+	height: 1rem;
+	margin-right: .4rem;
+	vertical-align: text-bottom;
+}
+
+@-webkit-keyframes openSpace {
+	from {
+		max-height: 0;
+	}
+	to {
+		max-height: 5rem;
+	}
+}
+@-webkit-keyframes moveIn {
+	from {
+		transform: translateX(120%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+@-webkit-keyframes borderIn {
+	to {
+		border-bottom-color: rgba(255, 255, 255, .1);
+	}
+}

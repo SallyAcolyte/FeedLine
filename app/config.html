@@ -1,0 +1,78 @@
+<link href="./css/window.css" rel="stylesheet">
+<link href="./css/config.css" rel="stylesheet">
+<link href="./css/font-awesome.min.css" rel="stylesheet">
+<meta charset="utf-8">
+
+<div class="window">
+	<header>
+		<h1>FeedLine :: Config<small>ver <span id="header_version"></span></small></h1>
+		<div class="window_control">
+			<button id="minimize_btn"><i class="fa fa-minus"></i></button>
+			<button id="close_btn"><i class="fa fa-times"></i></button>
+		</div>
+	</header>
+	<div id="config" class="content">
+		<div class="config-group">
+			<h2>動作の設定 <small>読み込み間隔など</small></h2>
+			<div class="config-body">
+				<div class="config-item">
+					<label>
+						同じフィードをおおよそ
+						<input type="number" id="FEED_INTERVAL" min="30" max="365" required>
+						分毎に一度取得する
+					</label>
+				</div>
+				<div class="config-item">
+					<label>
+						最低でも
+						<input type="number" id="MIN_ITEM_INTERVAL" min="1" max="365" required>
+						秒間は次の記事を表示しない
+					</label>
+				</div>
+				<div class="config-item">
+					<label>
+						<input type="number" id="LIMIT_DAY" min="1" max="365" required>
+						日前までの記事を表示する
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="config-group">
+			<h2>表示の設定 <small>デザインとウィンドウについて</small></h2>
+			<div class="config-body">
+				<div class="config-item">
+					<label>
+						フォントサイズ
+						<input type="number" id="FONTSIZE" min="8" max="32" required>
+						px
+					</label>
+				</div>
+				<div class="config-item">
+					<label>
+						<input type="checkbox" id="TASKTRAY">
+						タスクバーではなく、タスクトレイに表示する
+					</label>
+				</div>
+				<div class="config-item">
+					<label>
+						<input type="checkbox" id="CLOCK_TOP">
+						時計ウィンドウを常に手前に表示する
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="config-group">
+			<h2>フィードの管理 <small>RSSフィードのURL一覧</small></h2>
+			<textarea id="FEED_LIST" class="config-body"></textarea>
+		</div>
+	</div>
+	<footer>
+		<div id="status">
+			設定は再起動後に適用されます。
+		</div>
+	</footer>
+</div>
+
+<script src="./js/jquery-2.1.4.min.js"></script>
+<script src="./js/exception.js"></script>
+<script src="./js/config.js"></script>

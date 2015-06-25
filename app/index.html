@@ -1,0 +1,30 @@
+<link href="./css/window.css" rel="stylesheet">
+<link href="./css/index.css" rel="stylesheet">
+<link href="./css/font-awesome.min.css" rel="stylesheet">
+<meta charset="utf-8">
+
+<div class="window">
+	<header>
+		<h1>FeedLine</h1>
+		<div class="window_control">
+			<button id="config_btn"   title="設定を表示"><i class="fa fa-cog"></i></button>
+			<button id="minimize_btn" title="最小化"    ><i class="fa fa-minus"></i></button>
+			<button id="close_btn"    title="閉じる"    ><i class="fa fa-times"></i></button>
+		</div>
+	</header>
+	<div id="timeline" class="content">
+	</div>
+	<footer>
+		<div class="status_control">
+			<button id="clock_btn"    title="時計を表示"      ><i class="fa fa-clock-o"></i></button>
+			<button id="refresh_btn"  title="表示履歴をクリア"><i class="fa fa-eraser"></i></button>
+			<button id="forward_btn"  title="次のフィードへ"  ><i class="fa fa-forward"></i></button>
+		</div>
+		<div id="status">
+		</div>
+	</footer>
+</div>
+
+<script src="./js/jquery-2.1.4.min.js"></script>
+<script src="./js/exception.js"></script>
+<script src="./js/index.js"></script>

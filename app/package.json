@@ -1,0 +1,21 @@
+{
+	"name": "FeedLine",
+	"version": "0.0.1",
+	"bugs": "http://github.com/**************",
+	"main": "./index.html",
+	"window": {
+		"title": "FeedLine",
+		"resizable": true,
+		"toolbar": false,
+		"frame": false,
+		"transparent": true,
+		"show": false,
+		"min_width": 280,
+		"min_height": 300,
+		"max_width": 9999,
+		"max_height": 9999,
+		"width": 9999,
+		"height": 9999, 
+		"icon": "./img/icon.png"
+	}
+}

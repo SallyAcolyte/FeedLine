@@ -1,0 +1,47 @@
+@import url(http://fonts.googleapis.com/css?family=Iceland);
+
+/* ウィンドウ */
+body {
+	font-family: "Iceland";
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	-webkit-user-select: none;
+	color: #fff;
+	text-shadow: 1px 1px 2px #000;
+
+	-webkit-app-region: drag;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: subpixel-antialiased;
+	        font-smoothing: antialiased;
+}
+
+/* コンテント */
+.content {
+	height: 60px;
+	border: 5px solid rgb(42, 42, 42);
+	border-left-width: 70px;
+	background-color: rgba(16, 16, 16, .85);
+	box-shadow: 0 0 8px 3px #000 inset;
+}
+
+.pin {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#analog {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 60px;
+	height: 60px;
+}
+
+#digital {
+	font-size: 25px;
+	line-height: 22px;
+	margin-top: 8px;
+	text-align: center;
+}
