@@ -17,7 +17,7 @@ $(function () {
 	writeMessage("Welcome to FeedLine.<br><small>version: " + gui.App.manifest.version + "</small>");
 
 	// 最初フィードを取得する
-	main_timer = setTimeout(nextFeed, 1000);
+	setTimer(setTimeout(nextFeed, 1000));
 })
 
 function configInit () {
@@ -26,21 +26,28 @@ function configInit () {
 		FEED_LIST = JSON.parse(localStorage.feedlist);
 	} catch ( e ) {
 		FEED_LIST = [
-				"http://b.hatena.ne.jp/articles.rss", 
-				"http://b.hatena.ne.jp/entrylist/news.rss", 
-				"http://b.hatena.ne.jp/entrylist?sort=hot&threshold=&mode=rss", 
-				"http://b.hatena.ne.jp/hotentry/news.rss", 
-				"http://business.nikkeibp.co.jp/rss/all_nbo.rdf", 
-				"http://feed.nikkeibp.co.jp/rss/pc/pc_top.rdf", 
-				"http://feed.nikkeibp.co.jp/rss/trendynet/trendy.rdf", 
-				"http://feeds.cnn.co.jp/rss/cnn/cnn.rdf", 
-				"http://feeds.feedburner.com/hatena/b/hotentry", 
-				"http://itpro.nikkeibp.co.jp/rss/ITpro.rdf", 
-				"http://rss.rssad.jp/rss/codezine/new/20/index.xml", 
-				"http://rss.rssad.jp/rss/forest/rss.xml", 
-				"http://rss.rssad.jp/rss/headline/headline.rdf", 
-				"http://rss.rssad.jp/rss/itmtop/1.0/topstory.xml", 
-				"http://rss.rssad.jp/rss/mainichi/flash.rss"
+			"http://b.hatena.ne.jp/entrylist.rss",
+			"http://www.nikkeibp.co.jp/rss/select.rdf",
+			"http://itpro.nikkeibp.co.jp/rss/ITpro.rdf",
+			"http://news.google.com/news?hl=ja&ned=us&topic=h&ie=UTF-8&output=rss&num=100",
+			"http://b.hatena.ne.jp/entrylist/news.rss",
+			"http://www.nikkeibp.co.jp/rss/recommend.rdf",
+			"http://rss.rssad.jp/rss/codezine/new/20/index.xml",
+			"http://rss.rssad.jp/rss/mainichi/flash.rss",
+			"http://rss.wor.jp/rss1/yomiuri/latestnews.rdf",
+			"http://feeds.feedburner.com/hatena/b/hotentry",
+			"http://www.nikkeibp.co.jp/rss/buzz.rdf",
+			"http://rss.rssad.jp/rss/itmtop/1.0/topstory.xml",
+			"http://www3.nhk.or.jp/rss/news/cat0.xml",
+			"http://b.hatena.ne.jp/hotentry/it.rss",
+			"http://www.nikkeibp.co.jp/rss/it.rdf",
+			"http://rss.rssad.jp/rss/headline/headline.rdf",
+			"http://rss.asahi.com/rss/asahi/newsheadlines.rdf",
+			"http://b.hatena.ne.jp/entrylist/it.rss",
+			"http://rss.rssad.jp/rss/forest/rss.xml",
+			"http://feeds.cnn.co.jp/rss/cnn/cnn.rdf",
+			"http://news.google.com/news?hl=ja&ned=us&topic=t&ie=UTF-8&output=rss&num=100",
+			"http://rss.wor.jp/rss1/sankei/flash.rdf"
 		]
 		localStorage.feedlist = JSON.stringify(FEED_LIST);
 	}
@@ -76,8 +83,14 @@ function configInit () {
 
 	feed_cur = Math.floor(Math.random() * FEED_LIST.length);
 
-	// メインの処理に関わるタイマー
-	var main_timer = null;
+}
+
+// メインの処理に関わるタイマー
+// メインの処理を停止したい場合は、main_timerをclearTimeoutする
+var main_timer = null;
+function setTimer( timer ) {
+	clearTimeout(main_timer);
+	main_timer = timer;
 }
 
 function windowInit () {
@@ -195,9 +208,9 @@ function nextFeed () {
 	// nextFeed 次のフィード処理を開始する
 
 	// 次のフィード処理を開始する
-	main_timer = setTimeout(function () {
+	setTimer(setTimeout(function () {
 		enqueue(feed_cur++)
-	}, 0);
+	}, 0));
 
 	// 最後のフィードまで処理したら、カーソル（処理対象）を最初のフィードに戻す
 	if ( feed_cur >= FEED_LIST.length ) {
@@ -232,7 +245,7 @@ function enqueue ( feed_id ) {
 	stat("get " + req.host);
 	req.on('error', function (error) {
 		stat(error);
-		main_timer = setTimeout(nextFeed, FEED_INTERVAL_MS);
+		setTimer(setTimeout(nextFeed, FEED_INTERVAL_MS));
 	});
 
 	req.on('response', function (res) {
@@ -247,7 +260,7 @@ function enqueue ( feed_id ) {
 	// パース時のエラー
 	feedparser.on('error', function(error) {
 		stat(error.code + " / " + error.hostname);
-		main_timer = setTimeout(nextFeed, FEED_INTERVAL_MS);
+		setTimer(setTimeout(nextFeed, FEED_INTERVAL_MS));
 	});
 	
 	// 各アイテムに対する処理
@@ -256,7 +269,6 @@ function enqueue ( feed_id ) {
 			, meta = this.meta
 			, item;
 		while (item = stream.read()) {
-			console.log(item);
 			if (
 				// アイテムが空でない
 				item != null &&
@@ -287,16 +299,16 @@ function enqueue ( feed_id ) {
 			// フィード名とアイテム数を表示
 			var items = "items";
 			if (queue.length == 1) { items = "item"; }
-			writeMessage(sanitize(this.meta.title) + '<br><small>' + queue.length + ' ' + items + '</small>');
+			writeMessage(sanitize(this.meta.title) + ' <small>' + queue.length + ' ' + items + '</small>');
 			
 			// 各アイテム毎の表示間隔を計算
 			interval = FEED_INTERVAL_MS / queue.length;
 			if ( interval < MIN_ITEM_INTERVAL_MS ) { interval = MIN_ITEM_INTERVAL_MS; }
 			
 			// 1秒後から表示を開始する
-			main_timer = setTimeout(function () {
+			setTimer(setTimeout(function () {
 				dequeue(queue, interval);
-			}, 1000);
+			}, 1000));
 
 		} else {
 
@@ -304,7 +316,7 @@ function enqueue ( feed_id ) {
 			stat("新着記事なし: " + this.meta.title);
 
 			// FEED_INTERVAL_MS 後、次のフィード処理へ
-			main_timer = setTimeout(nextFeed, FEED_INTERVAL_MS);
+			setTimer(setTimeout(nextFeed, FEED_INTERVAL_MS));
 		}
 	});
 }
@@ -319,15 +331,15 @@ function dequeue ( queue, interval ) {
 		writeItem(item);
 
 		// interval後に次のアイテムをデキュー
-		main_timer = setTimeout(function () {
+		setTimer(setTimeout(function () {
 			dequeue(queue, interval);
-		}, interval);
+		}, interval));
 	
 	} else {
 
 		// アイテムが存在しない場合
 		// interval後に次のフィード処理へ
-		main_timer = setTimeout(nextFeed, interval);
+		setTimer(setTimeout(nextFeed, interval));
 	}
 }
 

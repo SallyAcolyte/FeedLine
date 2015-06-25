@@ -104,8 +104,8 @@ function saveConfig () {
 	localStorage.window_tasktray     = $("#TASKTRAY").prop("checked");
 	localStorage.clock_always_on_top = $("#CLOCK_TOP").prop("checked");
 
-	var url_ary = getUrlAry;
-	if (getUrlAry.length > 0) {
+	var url_ary = getUrlAry();
+	if (url_ary.length > 0) {
 		localStorage.feedlist = JSON.stringify(url_ary);
 	}
 }
