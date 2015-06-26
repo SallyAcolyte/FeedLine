@@ -8,8 +8,8 @@
 ![スクリーンショット](./docs/img/ss_main.png)
 
 ## ダウンロード
-- **v0.0.1 (2015-06-25)**
-	- Windows 64bit: [FeedLine_v0.0.1_Win64.zip](https://github.com/SallyAcolyte/FeedLine/releases/download/v0.0.1/FeedLine_v0.0.1_Win64.zip)
+- **v0.0.2 (2015-06-26)** [更新履歴](./docs/changelog.md#v002)
+	- Windows 64bit: [FeedLine_v0.0.2_win64.zip](https://github.com/SallyAcolyte/FeedLine/releases/download/v0.0.2/FeedLine_v0.0.2_win64.zip)
 	- Mac OS 10.7～ 64bit: 準備中
 
 その他のバージョン及びソースコードは、[リリースページ](https://github.com/SallyAcolyte/FeedLine/releases)からダウンロードできます。
