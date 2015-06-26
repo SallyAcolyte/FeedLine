@@ -77,7 +77,14 @@ function loadConfig() {
 	$("#FONTSIZE").val          (localStorage.fontsize);
 
 	try  {
+		$("#FAVICON").prop ("checked", JSON.parse(localStorage.show_favicon));
+	} catch ( e ) { }
+
+	try  {
 		$("#TASKTRAY").prop ("checked", JSON.parse(localStorage.window_tasktray));
+	} catch ( e ) { }
+
+	try  {
 		$("#CLOCK_TOP").prop("checked", JSON.parse(localStorage.clock_always_on_top));
 	} catch ( e ) { }
 
@@ -101,6 +108,7 @@ function saveConfig () {
 		localStorage.fontsize          = $("#FONTSIZE").val();
 	}
 
+	localStorage.show_favicon        = $("#FAVICON").prop("checked");
 	localStorage.window_tasktray     = $("#TASKTRAY").prop("checked");
 	localStorage.clock_always_on_top = $("#CLOCK_TOP").prop("checked");
 

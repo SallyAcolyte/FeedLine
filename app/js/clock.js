@@ -88,7 +88,7 @@ function analog (d) {
 }
 
 function digital (d) {
-	var AA_str = new Array("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
+	var AA_str = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
 	var YY = d.getFullYear().toString().slice(-2);
 	var MM = d.getMonth() + 1;
 	var DD = d.getDate();

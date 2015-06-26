@@ -1,4 +1,16 @@
 # FeedLine 技術構成と実装
+- [技術構成](#技術構成)
+	- [NW.jsについて](#nwjsについて)
+- [ファイル構成](#ファイル構成)
+- [実装](#実装)
+	- [メインウィンドウ](#メインウィンドウ)
+		- [function](#function)
+		- [フィード関連の仕様](#フィード関連の仕様)
+		- [広告カット](#広告カット)
+	- [設定ウィンドウ](#設定ウィンドウ)
+	- [時計](#時計)
+- [デフォルトのRSSフィード](#デフォルトのrssフィード)
+
 ## 技術構成
 - NW.js v0.12.2-win-x64
 	- Webの技術でGUIアプリケーションが作成できるフレームワーク
@@ -19,6 +31,9 @@
 		- デジタル時計（Web読み込み）
 	- [Font Awesome](http://fortawesome.github.io/Font-Awesome/) 4.3.0
 		- アイコンセット（同梱）
+- API
+	- [Favicon Converter](http://favicon.qfor.info/)
+		- faviconの表示
 
 ### NW.jsについて
 Node.js と Webkit により構成される、GUIアプリケーションのフレームワークです。  

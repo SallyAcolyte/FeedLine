@@ -68,17 +68,25 @@ function configInit () {
 	if (isNaN(localStorage.fontsize         )) {localStorage.fontsize          = 16};
 	FONTSIZE = localStorage.fontsize;
 
+	// faviconを表示するか
+	if (localStorage.show_favicon == "false") {
+		SHOW_FAVICON = false;
+	} else {
+		SHOW_FAVICON = true;
+		localStorage.show_favicon = "true";
+	}
+
 	// 前回時計が表示されていれば、表示する
-	if (localStorage.clock_show) {
+	if (localStorage.clock_show == "true") {
 		toggleClockWindow();
 	}
 
 	// アイテム表示履歴
 	try {
-		link_history = JSON.parse(localStorage.linkhistory);
+		item_history = JSON.parse(localStorage.itemhistory);
 	} catch ( e ) {
-		link_history = [];
-		localStorage.linkhistory = JSON.stringify(link_history);
+		item_history = [];
+		localStorage.itemhistory = JSON.stringify(item_history);
 	}
 
 	feed_cur = Math.floor(Math.random() * FEED_LIST.length);
@@ -171,7 +179,7 @@ function windowInit () {
 		nextFeed();
 	});
 	$("#refresh_btn").click( function () {
-		link_history = [];
+		item_history = [];
 	});
 
 
@@ -224,7 +232,7 @@ function quit () {
 	localStorage.window_y = win.y;
 	localStorage.window_width = win.width;
 	localStorage.window_height = win.height;
-	localStorage.linkhistory = JSON.stringify(link_history);
+	localStorage.itemhistory = JSON.stringify(item_history);
 	gui.App.closeAllWindows();
 	gui.App.quit();
 }
@@ -237,7 +245,7 @@ function enqueue ( feed_id ) {
 	limit_date = limit_date.setDate(limit_date.getDate() - LIMIT_DAYS);
 
 	// 1024を超えた履歴を削除
-	link_history.length = 1024;
+	item_history.length = 1024;
 
 	// RSSフィードをgetする
 	var feedparser = new FeedParser();
@@ -274,7 +282,7 @@ function enqueue ( feed_id ) {
 				item != null &&
 
 				// URLが表示履歴に存在しない
-				link_history.indexOf(item.link) == -1 &&
+				item_history.indexOf(item.meta.link + item.guid) == -1 &&
 				
 				// 日付が存在しないか、期限以内
 				(item.date == null || item.date > limit_date) &&
@@ -359,13 +367,14 @@ function writeMessage ( message ) {
 }
 
 function writeItem (item) {
+	console.log (item);
+
 	var title = sanitize(item.title);
-	var link = sanitize(item.link);
 
 	if (item.permalink != null) {
-		var url = sanitize(item.permalink);
+		var url = item.permalink;
 	} else {
-		var url = link;
+		var url = item.link;
 	}
 
 	// writeItem アイテム（記事）を表示する
@@ -375,7 +384,7 @@ function writeItem (item) {
 
 	var item_body = $("<div></div>", {
 		"class": "item-body feeditem",
-		"data-link": link,
+		"data-link": JSON.stringify(item.link),
 		on: {
 		  click: clickItem
 		}
@@ -388,16 +397,18 @@ function writeItem (item) {
 	});
 	item_body.append(item_title);
 
-	// faviconの追加
-	item_title.prepend($("<img />", {
-		"class": "favicon",
-		"src": "http://favicon.qfor.info/f/" + url
-	}));
-
+	// faviconの表示
+	if (SHOW_FAVICON) {
+		item_title.prepend($("<img />", {
+			"class": "favicon",
+			"src": "http://favicon.qfor.info/f/" + url
+		}));
+	}
+	
 	$("#timeline").prepend(item_elm);
-
-	// URLを履歴に追加
-	link_history.unshift(item.link);
+	
+	// 履歴に追加
+	item_history.unshift(item.meta.link + item.guid);
 
 	// 1024を超えたアイテムを削除
 	$(".item:gt(1024)").remove();
@@ -409,7 +420,7 @@ function clickItem ( e ) {
 		// 左クリック
 		case 1:
 			// アイテムがクリックされたら、外部ブラウザでリンクを開く
-			gui.Shell.openExternal( $(this).data("link") );
+			gui.Shell.openExternal( JSON.parse( $(this).data("link") ) );
 
 			// アイテムを表示済みにする
 			$(this).addClass("visited");
@@ -461,14 +472,16 @@ function toggleClockWindow () {
 			"show": false,
 			"width": 250,
 			"height": 70,
+			"max_width": 250,
+			"max_height": 70,
 			"show_in_taskbar": false,
 			"icon": gui.App.manifest.window.icon
 		});
 	} else {
-		localStorage.clock_show = false;
 		clock_window.close();
 	}
 	clock_window.on('closed', function() {
+		localStorage.clock_show = false;
 		clock_window = null;
 	});
 }
