@@ -22,9 +22,54 @@
 
 ### NW.jsについて
 Node.js と Webkit により構成される、GUIアプリケーションのフレームワークです。  
+HTML/CSSでレイアウトを組みJavaScriptで動作を作成するなど、Webの技術でGUIアプリが開発できます。  
+また、jQueryのようなJavaScriptライブラリや、Node.jsのパッケージが利用できます。
+
+## ファイル構成
+```
+/FeedLine/app
+│                   
+│  clock.html          // レイアウト 時計
+│  config.html         // レイアウト 設定ウィンドウ
+│  index.html          // レイアウト メインウィンドウ
+│  package.json        // NW.jsの基本設定（メタデータとメインウィンドウのオプション）
+│     
+├─css
+│      clock.css       // スタイル 時計
+│      config.css      // スタイル 設定ウィンドウ
+│      index.css       // スタイル メインウィンドウ
+│      window.css      // ウィンドウの基本スタイル（メインウィンドウと設定ウィンドウで利用）
+│      font-awesome.min.css  // アイコンセット「Font Awesome」
+│      
+├─fonts                // アイコンセット「Font Awesome」
+│      
+├─img
+│      clock_bg.png    // 時計 背景
+│      clock_hh.png    // 時計 時針
+│      clock_mm.png    // 時計 分針
+│      clock_ss.png    // 時計 秒針
+│      favicon.ico     // アイコン exe用
+│      icon.png        // アイコン メイン 256px
+│      icon.xcf        // アイコン GIMP用原本
+│      icon_16.png     // アイコン タスクトレイ用 16px
+│      
+├─js
+│      clock.js        // 時計
+│      config.js       // 設定ウィンドウ
+│      exception.js    // 全ウィンドウへ適用するコード（例外処理など）
+│      index.js        // メインウィンドウ
+│      jquery-2.1.4.min.js          // ライブラリ「jQuery」
+│      jQueryRotateCompressed.js    // ライブラリ「jQueryRotate」
+│      
+└─node_modules
+    ├─feedparser    // Node.jsパッケージ「feedparser」
+    ├─google-caja   // Node.jsパッケージ「google-caja」
+    └─request       // Node.jsパッケージ「request」
+```
 
 ## 実装
 ### メインウィンドウ
+
 処理の主な流れを図式化しています。  
 ※ 大まか流れを示した図であり、細部は省略しています。
 
@@ -81,6 +126,7 @@ item.link.match(/^http:\/\/rss\.rssad\.jp\/rss\/ad\//i);
 角度の変更は jQueryRotate により実装しています。
 
 ## デフォルトのRSSフィード
+FeedLineでは、デフォルトで以下のRSSフィードを登録しています。
 ````
 http://b.hatena.ne.jp/entrylist.rss
 http://b.hatena.ne.jp/entrylist/news.rss
